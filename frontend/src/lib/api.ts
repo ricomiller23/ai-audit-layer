@@ -2,7 +2,7 @@
  * AI Audit Layer - Frontend API Client
  */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ai-audit-layer-api.railway.app';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ai-audit-layer-production.up.railway.app';
 const API_KEY = 'al_sk_demo'; // In a real app, this would come from auth
 
 export interface AuditLog {
