@@ -32,16 +32,16 @@ export interface AuditLogDetail extends AuditLog {
 }
 
 export interface Metrics {
-    total_today: int;
-    total_week: int;
-    total_month: int;
-    approval_rate: float;
-    denial_rate: float;
-    flagged_rate: float;
-    avg_duration_ms: float;
-    by_outcome: Record<string, int>;
-    by_model: Record<string, int>;
-    by_decision_type: Record<string, int>;
+    total_today: number;
+    total_week: number;
+    total_month: number;
+    approval_rate: number;
+    denial_rate: number;
+    flagged_rate: number;
+    avg_duration_ms: number;
+    by_outcome: Record<string, number>;
+    by_model: Record<string, number>;
+    by_decision_type: Record<string, number>;
 }
 
 export const fetchLogs = async (params?: Record<string, any>) => {
