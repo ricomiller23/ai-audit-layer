@@ -17,9 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-slate-950 text-slate-50 min-h-screen flex`}>
+      <body className={`${inter.className} bg-slate-950 text-slate-50 min-h-screen`}>
         <Sidebar />
-        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex flex-col min-h-screen pl-64">
           <Navbar />
           <main className="flex-1 overflow-y-auto">
             {children}

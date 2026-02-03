@@ -21,7 +21,7 @@ export const Sidebar = () => {
     ];
 
     return (
-        <aside className="w-64 bg-slate-900 border-r border-slate-800 flex flex-col h-screen sticky top-0 shrink-0 z-50 relative">
+        <aside className="fixed left-0 top-0 h-full w-64 bg-slate-900 border-r border-slate-800 flex flex-col z-50">
             <div className="p-6 border-b border-slate-800 flex items-center gap-2">
                 <ShieldCheck className="text-blue-500 w-8 h-8" />
                 <span className="font-bold text-xl tracking-tight">AI Audit Layer</span>
