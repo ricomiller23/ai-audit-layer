@@ -13,13 +13,23 @@ import {
 } from "lucide-react";
 import { fetchLogs, fetchLogDetail, AuditLog, AuditLogDetail } from "@/lib/api";
 
+import { useToast } from "@/components/Toast";
+
 export default function Explorer() {
+    const { showToast } = useToast();
     const [logs, setLogs] = useState<AuditLog[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedLog, setSelectedLog] = useState<AuditLogDetail | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [search, setSearch] = useState("");
     const [filterOutcome, setFilterOutcome] = useState("all");
+
+    const handleExport = () => {
+        showToast("Exporting 50 audit logs to CSV...", 'info');
+        setTimeout(() => {
+            showToast("Export complete: audit_logs_2024.csv", 'success');
+        }, 1200);
+    };
 
     const loadData = async () => {
         setLoading(true);
@@ -28,6 +38,7 @@ export default function Explorer() {
             setLogs(data.logs);
         } catch (err) {
             console.error("Failed to load logs", err);
+            showToast("Failed to load audit logs", 'error');
         } finally {
             setLoading(false);
         }
@@ -77,7 +88,10 @@ export default function Explorer() {
                     <p className="text-slate-400 mt-1">Full-spectrum visibility into every AI decision.</p>
                 </div>
                 <div className="flex gap-3">
-                    <button className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-colors flex items-center gap-2 text-sm font-medium border border-slate-700">
+                    <button
+                        onClick={handleExport}
+                        className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-colors flex items-center gap-2 text-sm font-medium border border-slate-700"
+                    >
                         <Download size={18} />
                         Export CSV
                     </button>

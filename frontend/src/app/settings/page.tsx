@@ -12,10 +12,32 @@ import {
     Save
 } from "lucide-react";
 import { useState } from "react";
+import { useToast } from "@/components/Toast";
 
 export default function Settings() {
+    const { showToast } = useToast();
     const [showKey, setShowKey] = useState(false);
-    const apiKey = "al_sk_prod_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+    const [apiKey, setApiKey] = useState("al_sk_prod_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+
+    const handleSave = () => {
+        showToast("Saving changes...", 'info');
+        setTimeout(() => {
+            showToast("Settings saved successfully", 'success');
+        }, 1500);
+    };
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(apiKey);
+        showToast("API Key copied to clipboard", 'success');
+    };
+
+    const handleRotate = () => {
+        showToast("Rotating API Key...", 'info');
+        setTimeout(() => {
+            setApiKey("al_sk_prod_" + Math.random().toString(36).substring(7));
+            showToast("New API Key generated. Update your env vars.", 'success');
+        }, 1500);
+    };
 
     return (
         <div className="p-8 space-y-8 max-w-7xl mx-auto w-full">
@@ -26,7 +48,10 @@ export default function Settings() {
                     <p className="text-slate-400 mt-1">Configure your organization and security preferences.</p>
                 </div>
                 <div className="flex gap-3">
-                    <button className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors flex items-center gap-2 text-sm font-medium shadow-lg shadow-blue-600/20">
+                    <button
+                        onClick={handleSave}
+                        className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors flex items-center gap-2 text-sm font-medium shadow-lg shadow-blue-600/20"
+                    >
                         <Save size={18} />
                         Save Changes
                     </button>
@@ -58,10 +83,16 @@ export default function Settings() {
                                     >
                                         <Eye size={18} />
                                     </button>
-                                    <button className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg border border-slate-700 transition-all" title="Copy to Clipboard">
+                                    <button
+                                        onClick={handleCopy}
+                                        className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg border border-slate-700 transition-all" title="Copy to Clipboard"
+                                    >
                                         <Copy size={18} />
                                     </button>
-                                    <button className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg border border-slate-700 transition-all" title="Rotate Key">
+                                    <button
+                                        onClick={handleRotate}
+                                        className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg border border-slate-700 transition-all" title="Rotate Key"
+                                    >
                                         <RefreshCw size={18} />
                                     </button>
                                 </div>

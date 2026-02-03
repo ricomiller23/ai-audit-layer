@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "Immutable audit trails for AI decision tracking",
 };
 
+import { ToastProvider } from "@/components/Toast";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -18,13 +20,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-slate-950 text-slate-50 min-h-screen`}>
-        <Sidebar />
-        <div className="flex flex-col min-h-screen pl-64">
-          <Navbar />
-          <main className="flex-1 overflow-y-auto">
-            {children}
-          </main>
-        </div>
+        <ToastProvider>
+          <Sidebar />
+          <div className="flex flex-col min-h-screen pl-64">
+            <Navbar />
+            <main className="flex-1 overflow-y-auto">
+              {children}
+            </main>
+          </div>
+        </ToastProvider>
       </body>
     </html>
   );

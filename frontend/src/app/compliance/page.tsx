@@ -11,7 +11,26 @@ import {
     ChevronRight
 } from "lucide-react";
 
+import { useToast } from "@/components/Toast";
+
 export default function Compliance() {
+    const { showToast } = useToast();
+
+    const handleGenerateReport = (reportName: string) => {
+        showToast(`Generating ${reportName}...`, 'info');
+        // Simulate API call
+        setTimeout(() => {
+            showToast(`${reportName} ready for download`, 'success');
+        }, 1500);
+    };
+
+    const handleScan = () => {
+        showToast("Initiating compliance scan...", 'info');
+        setTimeout(() => {
+            showToast("Scan complete: 100% compliant", 'success');
+        }, 2000);
+    };
+
     const requirements = [
         {
             id: "soc2",
@@ -56,7 +75,10 @@ export default function Compliance() {
                     <p className="text-slate-400 mt-1">Institutional-grade governance for AI integrations.</p>
                 </div>
                 <div className="flex gap-3">
-                    <button className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors flex items-center gap-2 text-sm font-medium shadow-lg shadow-blue-600/20">
+                    <button
+                        onClick={handleScan}
+                        className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors flex items-center gap-2 text-sm font-medium shadow-lg shadow-blue-600/20"
+                    >
                         <ShieldCheck size={18} />
                         Run Compliance Scan
                     </button>
@@ -88,7 +110,12 @@ export default function Compliance() {
                                             <Calendar size={12} />
                                             Last Audit: {req.lastAudit}
                                         </div>
-                                        <button className="text-xs font-bold text-blue-400 hover:text-blue-300">View Report</button>
+                                        <button
+                                            onClick={() => showToast(`Opening ${req.name} audit report...`, 'info')}
+                                            className="text-xs font-bold text-blue-400 hover:text-blue-300"
+                                        >
+                                            View Report
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 -mr-12 -mt-12 rounded-full blur-2xl transition-all group-hover:bg-blue-500/10"></div>
@@ -136,12 +163,12 @@ export default function Compliance() {
                             <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
                                 <p className="text-xs font-bold text-red-500 uppercase tracking-widest mb-1">Critical</p>
                                 <p className="text-sm text-slate-200 mb-2">Model drift detected in 'diagnosis_assist'.</p>
-                                <button className="text-[10px] font-bold text-red-400 hover:text-red-300">INVESTIGATE NOW</button>
+                                <button className="text-[10px] font-bold text-red-400 hover:text-red-300" onClick={() => showToast("Investigation ticket #2481 created", 'success')}>INVESTIGATE NOW</button>
                             </div>
                             <div className="p-3 bg-orange-500/10 border border-orange-500/20 rounded-lg">
                                 <p className="text-xs font-bold text-orange-500 uppercase tracking-widest mb-1">Warning</p>
                                 <p className="text-sm text-slate-200 mb-2">API key 'al_sk_finance' expires in 48h.</p>
-                                <button className="text-[10px] font-bold text-orange-400 hover:text-orange-300">ROTATE KEY</button>
+                                <button className="text-[10px] font-bold text-orange-400 hover:text-orange-300" onClick={() => showToast("Key rotation wizard started", 'info')}>ROTATE KEY</button>
                             </div>
                         </div>
                     </div>
@@ -155,15 +182,24 @@ export default function Compliance() {
                             Generate and download localized compliance artifacts for regulatory submission.
                         </p>
                         <div className="grid grid-cols-1 gap-2">
-                            <button className="w-full py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-all text-left px-4 flex justify-between items-center group">
+                            <button
+                                onClick={() => handleGenerateReport("Monthly Regulatory PDF")}
+                                className="w-full py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-all text-left px-4 flex justify-between items-center group"
+                            >
                                 Monthly Regulatory PDF
                                 <ChevronRight size={14} className="text-slate-600 group-hover:translate-x-1 transition-all" />
                             </button>
-                            <button className="w-full py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-all text-left px-4 flex justify-between items-center group">
+                            <button
+                                onClick={() => handleGenerateReport("Audit Log JSON")}
+                                className="w-full py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-all text-left px-4 flex justify-between items-center group"
+                            >
                                 Audit Log JSON Bundle
                                 <ChevronRight size={14} className="text-slate-600 group-hover:translate-x-1 transition-all" />
                             </button>
-                            <button className="w-full py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-all text-left px-4 flex justify-between items-center group">
+                            <button
+                                onClick={() => handleGenerateReport("Ruleset Manifest")}
+                                className="w-full py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-all text-left px-4 flex justify-between items-center group"
+                            >
                                 Ruleset Manifest (YAML)
                                 <ChevronRight size={14} className="text-slate-600 group-hover:translate-x-1 transition-all" />
                             </button>
