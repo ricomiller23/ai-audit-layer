@@ -7,7 +7,8 @@ import {
     FileLock2,
     Download,
     Info,
-    Calendar
+    Calendar,
+    ChevronRight
 } from "lucide-react";
 
 export default function Compliance() {
