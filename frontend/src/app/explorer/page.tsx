@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { fetchLogs, fetchLogDetail, AuditLog, AuditLogDetail } from "@/lib/api";
 
+import { downloadMockFile } from "@/lib/download";
 import { useToast } from "@/components/Toast";
 
 export default function Explorer() {
@@ -27,7 +28,9 @@ export default function Explorer() {
     const handleExport = () => {
         showToast("Exporting 50 audit logs to CSV...", 'info');
         setTimeout(() => {
-            showToast("Export complete: audit_logs_2024.csv", 'success');
+            const csvContent = "timestamp,decision_type,model,outcome,risk\n2024-02-01T10:00:00Z,loan_approval,gpt-4,approved,low\n2024-02-01T10:05:00Z,content_moderation,claude-3,flagged,high";
+            downloadMockFile('audit_logs.csv', csvContent, 'csv');
+            showToast("Export complete: audit_logs.csv", 'success');
         }, 1200);
     };
 

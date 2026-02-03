@@ -12,15 +12,35 @@ import {
 } from "lucide-react";
 
 import { useToast } from "@/components/Toast";
+import { downloadMockFile, generateMockPDFContent } from "@/lib/download";
 
 export default function Compliance() {
     const { showToast } = useToast();
 
     const handleGenerateReport = (reportName: string) => {
         showToast(`Generating ${reportName}...`, 'info');
-        // Simulate API call
+
+        // Simulate processing time
         setTimeout(() => {
-            showToast(`${reportName} ready for download`, 'success');
+            const dateStr = new Date().toISOString().split('T')[0];
+            const filename = `${reportName.replace(/\s+/g, '_').toLowerCase()}_${dateStr}`;
+
+            let content = "";
+            let type: 'pdf' | 'json' | 'yaml' = 'pdf';
+
+            if (reportName.includes("JSON")) {
+                content = JSON.stringify({ audit_log: "sample data", status: "compliant" }, null, 2);
+                type = 'json';
+            } else if (reportName.includes("YAML")) {
+                content = "ruleset:\n  - id: soc2\n    status: compliant";
+                type = 'yaml';
+            } else {
+                content = generateMockPDFContent();
+                type = 'pdf';
+            }
+
+            downloadMockFile(`${filename}.${type}`, content, type);
+            showToast(`${reportName} downloaded successfully`, 'success');
         }, 1500);
     };
 
@@ -111,7 +131,7 @@ export default function Compliance() {
                                             Last Audit: {req.lastAudit}
                                         </div>
                                         <button
-                                            onClick={() => showToast(`Opening ${req.name} audit report...`, 'info')}
+                                            onClick={() => handleGenerateReport(`${req.name} Report`)}
                                             className="text-xs font-bold text-blue-400 hover:text-blue-300"
                                         >
                                             View Report
